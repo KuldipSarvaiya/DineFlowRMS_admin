@@ -25,7 +25,7 @@ function Present() {
                 <td>{2345678}</td>
                 <td>{"John Doe"}</td>
                 <th scope="row">
-                  <a href="#">{new Date().toLocaleDateString()}</a>
+                  <span>{new Date().toLocaleDateString()}</span>
                 </th>
                 <td>
                   <button

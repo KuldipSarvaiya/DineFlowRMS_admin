@@ -25,10 +25,10 @@ function BookingReqs() {
                 <td>{1}</td>
                 <td>{"John Doe"}</td>
                 <td scope="row">
-                  <a href="#">{new Date().toLocaleDateString()}</a>
+                  <span>{new Date().toLocaleDateString()}</span>
                 </td>
                 <td>
-                  <a href="#">{new Date().toLocaleTimeString()}</a>
+                  <span>{new Date().toLocaleTimeString()}</span>
                 </td>
                 <td>{4}</td>
                 <td>{45} min.</td>
@@ -39,19 +39,19 @@ function BookingReqs() {
                 </td>
                 <td>
                   <button
+                    className="btn btn-success"
+                    onClick={() => console.log(prompt("Enter Table Number : "))}
+                  >
+                    <i className="bx bx-check"></i>
+                  </button>
+                  &nbsp; &nbsp;
+                  <button
                     className="btn btn-danger"
                     onClick={() => {
                       alert("order deleted");
                     }}
                   >
                     <i className="bx bx-trash"></i>
-                  </button>
-                  &nbsp; &nbsp;
-                  <button
-                    className="btn btn-success"
-                    onClick={() => console.log(prompt("Enter Table Number : "))}
-                  >
-                    <i className="bx bx-check"></i>
                   </button>
                 </td>
               </tr>

@@ -19,19 +19,22 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import axios from "axios";
 import MenuItem from "./forms/MenuItem";
+import BillsForm from "./forms/BillsForm";
+import RestUser from "./forms/RestUser";
+import CustomerForm from "./forms/CustomerForm";
+import TableForm from "./forms/TableForm";
 
 function App() {
   useLayoutEffect(() => {
     axios.defaults.baseURL = "http://localhost:8080/";
   });
-  
+
   return (
     <BrowserRouter>
       <Header />
       <Sidebar />
       <main id="main" class="main">
         <Routes>
-          
           {/* pages */}
           <Route path="/" element={<Home />} />
           <Route path="/bills" element={<Bills />} />
@@ -42,7 +45,7 @@ function App() {
           <Route path="/table_details" element={<Details />} />
           <Route path="/table_bookings" element={<Bookings />} />
           <Route path="/orders_past" element={<Past />} />
-          <Route path="/orders_current" element={<Present />} /> 
+          <Route path="/orders_current" element={<Present />} />
           <Route path="/feedback" element={<FeedBack />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="*" element={<NotFound />} />
@@ -50,7 +53,13 @@ function App() {
           {/* forms */}
           <Route path="/menuitem" element={<MenuItem />} />
           <Route path="/menuitem/:id" element={<MenuItem />} />
-
+          <Route path="/bills/:id" element={<BillsForm />} />
+          <Route path="/customer" element={<CustomerForm />} />
+          <Route path="/customer/:id" element={<CustomerForm />} />
+          <Route path="/user/:role/" element={<RestUser />} />
+          <Route path="/user/:role/:id" element={<RestUser />} />
+          <Route path="/table" element={<TableForm />} />
+          <Route path="/table/:id" element={<TableForm />} />
         </Routes>
       </main>
       <Footer />

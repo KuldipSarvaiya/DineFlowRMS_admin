@@ -1,7 +1,9 @@
 import React from "react";
-// import "../styles/bills.css";
+import { useNavigate } from "react-router-dom";
 
 function Bills() {
+  const navigate = useNavigate();
+
   function SubNavBar() {
     function handleSearch(e) {
       e.preventDefault();
@@ -82,16 +84,21 @@ function Bills() {
                 <td>{2345678}</td>
                 <td>{"John Doe"}</td>
                 <th scope="row">
-                  <a href="#">{new Date().toLocaleDateString()}</a>
+                  <span>{new Date().toLocaleDateString()}</span>
                 </th>
                 <td>{1400}</td>
                 <td>
-                  <button className="btn btn-danger">
-                    <i className="bx bx-trash"></i>
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => {
+                      navigate(`/bills/${223}`);
+                    }}
+                  >
+                    <i className="bx bx-edit-alt"></i>
                   </button>
                   &nbsp; &nbsp;
-                  <button className="btn btn-warning">
-                    <i className="bx bx-edit-alt"></i>
+                  <button className="btn btn-danger">
+                    <i className="bx bx-trash"></i>
                   </button>
                 </td>
               </tr>

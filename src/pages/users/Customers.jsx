@@ -1,11 +1,24 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Customers() {
+  const navigate = useNavigate();
   return (
     <div className="col-12">
       <div className="card recent-sales overflow-auto">
         <div className="card-body">
-          <h5 className="card-title">Customers</h5>
+          <h5 className="card-title">
+            Manage Restaurent Customer &nbsp;&nbsp;&nbsp;&nbsp;
+            <span>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={() => navigate(`/customer`)}
+              >
+                <i className="bi bi-plus"></i> Add New Customer
+              </button>
+            </span>
+          </h5>
 
           <table className="table table-borderless datatable">
             <thead>
@@ -31,12 +44,15 @@ function Customers() {
                 <td>1234567876</td>
                 <td>password</td>
                 <td>
-                  <button className="btn btn-danger">
-                    <i className="bx bx-trash"></i>
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => navigate(`/customer/${123}`)}
+                  >
+                    <i className="bx bx-edit-alt"></i>
                   </button>
                   &nbsp; &nbsp;
-                  <button className="btn btn-warning">
-                    <i className="bx bx-edit-alt"></i>
+                  <button className="btn btn-danger">
+                    <i className="bx bx-trash"></i>
                   </button>
                 </td>
               </tr>

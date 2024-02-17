@@ -45,7 +45,7 @@ function Menu() {
                 <td>1283 $</td>
                 <td>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-warning"
                     onClick={() => navigate(`/menuitem/${123}`)}
                   >
                     <i className="bx bx-edit-alt"></i>

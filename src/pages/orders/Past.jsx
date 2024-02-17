@@ -84,7 +84,7 @@ function Past() {
                 <td>{2345678}</td>
                 <td>{"John Doe"}</td>
                 <th scope="row">
-                  <a href="#">{new Date().toLocaleDateString()}</a>
+                  <span>{new Date().toLocaleDateString()}</span>
                 </th>
                 <td>{1400}</td>
                 <td>
@@ -97,12 +97,12 @@ function Past() {
                     <i className="bx bx-trash"></i>
                   </button>
                   &nbsp; &nbsp;
-                  <button
+                  {/* <button
                     className="btn btn-warning"
                     onClick={() => navigate(`/order_edit/${111}`)}
                   >
                     <i className="bx bx-edit-alt"></i>
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             </tbody>

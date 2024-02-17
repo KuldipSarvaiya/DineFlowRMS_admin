@@ -84,10 +84,10 @@ function BookingAccepted() {
                 <td>{"John Doe"}</td>
                 <td>{101}</td>
                 <td scope="row">
-                  <a href="#">{new Date().toLocaleDateString()}</a>
+                  <span>{new Date().toLocaleDateString()}</span>
                 </td>
                 <td>
-                  <a href="#">{new Date().toLocaleTimeString()}</a>
+                  <span>{new Date().toLocaleTimeString()}</span>
                 </td>
                 <td>{4}</td>
                 <td>{45} min.</td>
