@@ -75,7 +75,7 @@ function Bills() {
                 <th scope="col">CUSTOMER</th>
                 <th scope="col">BILL DATE</th>
                 <th scope="col">BILL AMOUNT</th>
-                <th scope="col">OPERATIONS</th>
+                <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -88,14 +88,14 @@ function Bills() {
                 </th>
                 <td>{1400}</td>
                 <td>
-                  <button
+                  {/* <button
                     className="btn btn-warning"
                     onClick={() => {
                       navigate(`/bills/${223}`);
                     }}
                   >
                     <i className="bx bx-edit-alt"></i>
-                  </button>
+                  </button> */}
                   &nbsp; &nbsp;
                   <button className="btn btn-danger">
                     <i className="bx bx-trash"></i>

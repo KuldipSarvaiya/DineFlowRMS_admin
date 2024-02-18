@@ -53,7 +53,7 @@ function App() {
           {/* forms */}
           <Route path="/menuitem" element={<MenuItem />} />
           <Route path="/menuitem/:id" element={<MenuItem />} />
-          <Route path="/bills/:id" element={<BillsForm />} />
+          {/* <Route path="/bills/:id" element={<BillsForm />} /> */}
           <Route path="/customer" element={<CustomerForm />} />
           <Route path="/customer/:id" element={<CustomerForm />} />
           <Route path="/user/:role/" element={<RestUser />} />

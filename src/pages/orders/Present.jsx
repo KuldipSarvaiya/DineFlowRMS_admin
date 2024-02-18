@@ -28,6 +28,20 @@ function Present() {
                   <span>{new Date().toLocaleDateString()}</span>
                 </th>
                 <td>
+                  {/* &nbsp; &nbsp;
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => navigate(`/order_edit/${111}`)}
+                  >
+                    <i className="bx bx-edit-alt"></i>
+                  </button> */}
+                  <button
+                    className="btn btn-success"
+                    onClick={() => alert("now customer can order")}
+                  >
+                    <i className="bx bx-check">Allow Orders</i>
+                  </button>
+                  &nbsp; &nbsp;
                   <button
                     className="btn btn-danger"
                     onClick={() => {
@@ -35,20 +49,6 @@ function Present() {
                     }}
                   >
                     <i className="bx bx-trash"></i>
-                  </button>
-                  &nbsp; &nbsp;
-                  <button
-                    className="btn btn-warning"
-                    onClick={() => navigate(`/order_edit/${111}`)}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button>
-                  &nbsp; &nbsp;
-                  <button
-                    className="btn btn-success"
-                    onClick={() => alert("now customer can order")}
-                  >
-                    <i className="bx bx-check">Allow Orders</i>
                   </button>
                 </td>
               </tr>
