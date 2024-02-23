@@ -1,41 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "../styles/menuitem.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-function Menu() {
+function GenretedBill() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [data, setData] = useState([]);
   useEffect(() => {
     fetchData();
   }, []);
 
   async function fetchData() {
-    const res = await axios.get("/menuitem");
+    const res = await axios.get("/order/get_bill/" + id);
+    console.log(res.data);
     if (res.data) setData(res.data);
   }
 
-  async function deleteMenuItem(id) {
-    const res = await axios.delete(`/menuitem/${id}`);
-    if (res.data) fetchData();
-  }
-  
   return (
     <div className="col-12">
       <div className="card recent-sales overflow-auto">
         <div className="card-body">
-          <h5 className="card-title">
-            Menu Items &nbsp;
-            <span>
-              <button
-                type="button"
-                class="btn btn-primary"
-                onClick={() => navigate("/menuitem")}
-              >
-                <i className="bi bi-plus"></i> Add New Item
-              </button>
-            </span>
-          </h5>
+          <h5 className="card-title">Ordered Menu Items &nbsp;</h5>
 
           <table className="table table-borderless datatable">
             <thead>
@@ -45,11 +31,11 @@ function Menu() {
                 <th scope="col">MENU ITEM NAME</th>
                 <th scope="col">CATEGORY</th>
                 <th scope="col">PRICE</th>
-                <th scope="col">ACTION</th>
+                <th scope="col">QUENTITY</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((item, i) => {
+              {data?.trn_orders?.map((item, i) => {
                 return (
                   <tr>
                     <th scope="row">{i + 1}</th>
@@ -63,26 +49,23 @@ function Menu() {
                     <td>{item.item_name}</td>
                     <td>{item.category}</td>
                     <td>{item.price}</td>
-                    <td>
-                      <button
-                        className="btn btn-warning"
-                        onClick={() =>
-                          navigate(`/menuitem/${item.menuitem_id}`)
-                        }
-                      >
-                        <i className="bx bx-edit-alt"></i>
-                      </button>
-                      &nbsp; &nbsp;
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => deleteMenuItem(item.menuitem_id)}
-                      >
-                        <i className="bx bx-trash"></i>
-                      </button>
-                    </td>
+                    <td>{item.qty}</td>
                   </tr>
                 );
               })}
+              <tr>
+                <td colSpan={6}>
+                  <hr width={"100%"} />
+                </td>
+              </tr>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">TOTAL &rarr;</th>
+                <th scope="col">SUB TOTAL : {data?.order?.[0]?.sub_total}</th>
+                <th scope="col">CHARGES : {data?.order?.[0]?.charges}</th>
+                <th scope="col">DISCOUNT : {data?.order?.[0]?.discount}</th>
+                <th scope="col">NET TOTAL : {data?.order?.[0]?.net_total}</th>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -91,4 +74,4 @@ function Menu() {
   );
 }
 
-export default Menu;
+export default GenretedBill;

@@ -1,62 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Bills() {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData(query = "") {
+    const res = await axios.get("/order?is_complete=1" + query);
+    console.log(res.data);
+    if (res.data) setData(res.data);
+  }
+
+  async function deleteBill(id) {
+    const res = await axios.delete(`/order/${id}`);
+    if (res.data) fetchData();
+  }
 
   function SubNavBar() {
     function handleSearch(e) {
       e.preventDefault();
       const data = new FormData(e.target);
-      const from_date = data.get("from_date");
-      const to_date = data.get("to_date");
-      console.log(from_date, to_date);
+      const date_from = data.get("from_date");
+      const date_to = data.get("to_date");
+      fetchData("&date_from=" + date_from + "&date_to=" + date_to);
     }
     return (
-      <form onSubmit={handleSearch}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 20,
-            alignItems: "center",
-            margin: 10,
-            paddingBottom: 10,
-            borderBottom: "2px solid gray",
-          }}
-        >
-          <h5>Search Between : </h5>
-          <div class="">
-            <div class="col-sm-11" style={{ padding: 0 }}>
-              <input
-                type="date"
-                class="form-control"
-                name="from_date"
-                style={{ cursor: "pointer" }}
-                required
-              />
+      <>
+        <form onSubmit={handleSearch}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 20,
+              alignItems: "center",
+              margin: 10,
+              paddingBottom: 10,
+              borderBottom: "2px solid gray",
+            }}
+          >
+            <h5>Search Between : </h5>
+            <div class="">
+              <div class="col-sm-11" style={{ padding: 0 }}>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="from_date"
+                  style={{ cursor: "pointer" }}
+                  required
+                />
+              </div>
+            </div>
+            <h6>To</h6>
+            <div class="">
+              <div class="col-sm-11" style={{ padding: 0 }}>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="to_date"
+                  style={{ cursor: "pointer" }}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary">
+                <i className="bi bi-search"></i>
+                &nbsp;Search
+              </button>
             </div>
           </div>
-          <h6>To</h6>
-          <div class="">
-            <div class="col-sm-11" style={{ padding: 0 }}>
-              <input
-                type="date"
-                class="form-control"
-                name="to_date"
-                style={{ cursor: "pointer" }}
-                required
-              />
-            </div>
-          </div>
-          <div>
-            <button type="submit" class="btn btn-primary">
-              <i className="bi bi-search"></i>
-              &nbsp;Search
-            </button>
-          </div>
+        </form>
+        <div>
+          <button class="btn btn-primary" onClick={fetchData}>
+            <i className="bi bi-asterisk"></i>
+            &nbsp;Get All
+          </button>
         </div>
-      </form>
+      </>
     );
   }
 
@@ -79,29 +103,38 @@ function Bills() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{1}</td>
-                <td>{2345678}</td>
-                <td>{"John Doe"}</td>
-                <th scope="row">
-                  <span>{new Date().toLocaleDateString()}</span>
-                </th>
-                <td>{1400}</td>
-                <td>
-                  {/* <button
-                    className="btn btn-warning"
-                    onClick={() => {
-                      navigate(`/bills/${223}`);
-                    }}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button> */}
-                  &nbsp; &nbsp;
-                  <button className="btn btn-danger">
-                    <i className="bx bx-trash"></i>
-                  </button>
-                </td>
-              </tr>
+              {data.map((bill, i) => {
+                return (
+                  <tr>
+                    <td>{i + 1}</td>
+                    <td>{bill.customer_order_id}</td>
+                    <td>{bill.name}</td>
+                    <td>
+                      {new Date(
+                        bill.update_date || bill.entry_date
+                      ).toLocaleDateString()}
+                    </td>
+                    <td>{bill.net_total}</td>
+                    <td>
+                      <button
+                        className="btn btn-warning"
+                        onClick={() => {
+                          navigate(`/bill/${bill.order_id}`);
+                        }}
+                      >
+                        <i className="bi bi-arrow-up-right"></i>
+                      </button>
+                      &nbsp; &nbsp;
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteBill(bill.order_id)}
+                      >
+                        <i className="bx bx-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

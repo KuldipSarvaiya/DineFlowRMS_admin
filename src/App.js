@@ -23,10 +23,11 @@ import BillsForm from "./forms/BillsForm";
 import RestUser from "./forms/RestUser";
 import CustomerForm from "./forms/CustomerForm";
 import TableForm from "./forms/TableForm";
+import GenretedBill from "./widgets/GenretedBill";
 
 function App() {
   useLayoutEffect(() => {
-    axios.defaults.baseURL = "http://localhost:8080/";
+    axios.defaults.baseURL = "http://localhost:8080";
   });
 
   return (
@@ -38,6 +39,7 @@ function App() {
           {/* pages */}
           <Route path="/" element={<Home />} />
           <Route path="/bills" element={<Bills />} />
+          <Route path="/bill/:id" element={<GenretedBill />} />
           <Route path="/users_managers" element={<Managers />} />
           <Route path="/users_waiters" element={<Waiters />} />
           <Route path="/users_chefs" element={<Chefs />} />

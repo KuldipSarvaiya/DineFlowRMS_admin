@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Managers() {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const res = await axios.get("/employee?role_id=2");
+    console.log(res.data);
+    if (res.data) setData(res.data);
+  }
+
+  async function deleteManager(id) {
+    const res = await axios.delete(`/employee/${id}`);
+    if (res.data) fetchData();
+  }
+
   return (
     <div className="col-12">
       <div className="card recent-sales overflow-auto">
@@ -32,25 +49,34 @@ function Managers() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>kuldip</td>
-                <td>1234567876</td>
-                <td>kuldip@gmail.com</td>
-                <td>password</td>
-                <td>
-                  <button
-                    className="btn btn-warning"
-                    onClick={() => navigate(`/user/manager/${123}`)}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button>
-                  &nbsp; &nbsp;
-                  <button className="btn btn-danger">
-                    <i className="bx bx-trash"></i>
-                  </button>
-                </td>
-              </tr>
+              {data.map((user, i) => {
+                return (
+                  <tr>
+                    <td>{i + 1}</td>
+                    <td>{user.name}</td>
+                    <td>{user.mobile}</td>
+                    <td>{user.email_id}</td>
+                    <td>{user.password}</td>
+                    <td>
+                      <button
+                        className="btn btn-warning"
+                        onClick={() =>
+                          navigate(`/user/manager/${user.employee_id}`)
+                        }
+                      >
+                        <i className="bx bx-edit-alt"></i>
+                      </button>
+                      &nbsp; &nbsp;
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteManager(user.employee_id)}
+                      >
+                        <i className="bx bx-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

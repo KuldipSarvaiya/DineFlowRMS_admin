@@ -1,20 +1,71 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 function RestUser() {
   const { role, id } = useParams();
+  const [data, setData] = useState({
+    name: "",
+    email_id: "",
+    password: "",
+    role_id: "",
+    mobile: "",
+  });
+  const navigate = useNavigate();
+  async function fetchData() {
+    const res = await axios.get(`/employee/${id}`);
+    if (res.data) setData(res.data[0]);
+  }
+  useEffect(() => {
+    if (id) fetchData();
+  }, []);
+  function handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setData((prev) => {
+      return { ...prev, [name]: value };
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    let res = null;
+    if (id)
+      res = await axios.put(`/employee/${id}`, {
+        ...data,
+        updated_by: 1,
+        updated_by_role: 1,
+      });
+    else
+      res = await axios.post(`/employee`, {
+        ...data,
+        entry_by: 1,
+        entry_by_role: 1,
+      });
+
+    if (res.data) navigate(`/users_${role}s`, { replace: true });
+  }
+
   return (
     <div className="col-12">
       <div className="card recent-sales overflow-auto">
         <div className="card-body">
           <h1>Manage Restaurant User</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div class="row mb-3">
               <label htmlFor="inputText" class="col-sm-2 col-form-label">
                 Name
               </label>
               <div class="col-sm-10">
-                <input type="text" required name="name" class="form-control" />
+                <input
+                  value={data?.name}
+                  onChange={handleChange}
+                  type="text"
+                  required
+                  name="name"
+                  class="form-control"
+                />
               </div>
             </div>
             <div class="row mb-3">
@@ -23,6 +74,8 @@ function RestUser() {
               </label>
               <div class="col-sm-10">
                 <input
+                  value={data?.email_id}
+                  onChange={handleChange}
                   type="email"
                   required
                   name="email_id"
@@ -36,6 +89,8 @@ function RestUser() {
               </label>
               <div class="col-sm-10">
                 <input
+                  value={data?.password}
+                  onChange={handleChange}
                   type="password"
                   required
                   name="password"
@@ -48,7 +103,14 @@ function RestUser() {
                 Mobile No.
               </label>
               <div class="col-sm-10">
-                <input type="tel" required name="mobile" class="form-control" />
+                <input
+                  value={data?.mobile}
+                  onChange={handleChange}
+                  type="tel"
+                  required
+                  name="mobile"
+                  class="form-control"
+                />
               </div>
             </div>
             <div class="row mb-3">
@@ -57,6 +119,8 @@ function RestUser() {
               </label>
               <div class="col-sm-10">
                 <input
+                  // value={data?.role_id}
+                  // onChange={handleChange}
                   type="tel"
                   required
                   name="role_id"

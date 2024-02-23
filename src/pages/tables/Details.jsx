@@ -1,7 +1,24 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Details() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const res = await axios.get("/table");
+    console.log(res.data);
+    if (res.data) setData(res.data);
+  }
+
+  async function deleteTable(id) {
+    const res = await axios.delete(`/table/${id}`);
+    if (res.data) fetchData();
+  }
+
   const navigate = useNavigate();
   return (
     <div className="col-12">
@@ -30,23 +47,30 @@ function Details() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>101</td>
-                <td>4</td>
-                <td>
-                  <button
-                    className="btn btn-warning"
-                    onClick={() => navigate(`/table/${123}`)}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button>
-                  &nbsp; &nbsp;
-                  <button className="btn btn-danger">
-                    <i className="bx bx-trash"></i>
-                  </button>
-                </td>
-              </tr>
+              {data.map((table, i) => {
+                return (
+                  <tr>
+                    <td>{i + 1}</td>
+                    <td>{table.table_no}</td>
+                    <td>{table.table_capacity}</td>
+                    <td>
+                      <button
+                        className="btn btn-warning"
+                        onClick={() => navigate(`/table/${table.table_id}`)}
+                      >
+                        <i className="bx bx-edit-alt"></i>
+                      </button>
+                      &nbsp; &nbsp;
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteTable(table.table_id)}
+                      >
+                        <i className="bx bx-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

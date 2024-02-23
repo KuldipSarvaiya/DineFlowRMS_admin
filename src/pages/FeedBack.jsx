@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function FeedBack() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const res = await axios.get("/feedback");
+    if (res.data) setData(res.data);
+  }
+
   return (
     <div className="col-12">
       <div className="card recent-sales overflow-auto">
@@ -21,18 +32,22 @@ function FeedBack() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">
-                  <a href="#">1</a>
-                </th>
-                <td>Brandon Jacob</td>
-                <td>123456yu</td>
-                <td>this is very good and like this item</td>
-                <td>
-                  <span className="badge bg-success">4.5</span>
-                </td>
-                <td>{new Date().toDateString()}</td>
-              </tr>
+              {data.map((feed, i) => {
+                return (
+                  <tr>
+                    <th scope="row">
+                      <a href="#">{i + 1}</a>
+                    </th>
+                    <td>{feed.name}</td>
+                    <td>{feed.order_id}</td>
+                    <td>{feed.feedback}</td>
+                    <td>
+                      <span className="badge bg-success">{feed.rating}</span>
+                    </td>
+                    <td>{new Date(feed.entry_date).toDateString()}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
