@@ -17,7 +17,9 @@ function BookingReqs() {
     const this_booking = data.find((item) => item.booking_id === id);
     let table_no = this_booking.table_no;
     if (is_accepted === "Accepted")
-      table_no = prompt("Enter Table Number To Allocate To This Booking : ").toString();
+      table_no = prompt("Enter Table Number To Allocate To This Booking : "); //.toString();
+    if (!table_no) return;
+
     console.log(this_booking, is_accepted);
     const res = await axios.put(`/booking/${id}`, {
       ...this_booking,
@@ -61,9 +63,7 @@ function BookingReqs() {
                       </span>
                     </td>
                     <td>
-                      <span>
-                        {new Date(item.booking_time).toLocaleTimeString()}
-                      </span>
+                      <span>{item.booking_time}</span>
                     </td>
                     <td>{item.person_count}</td>
                     <td>{item.duration} min.</td>

@@ -134,20 +134,36 @@ export default function Sidebar() {
                 <span>Current</span>
               </a>
             </li>
-            {/* <li>
-              <a href="/orders_future">
+            <li>
+              <a href="/itemorders">
                 <i class="bi bi-circle"></i>
-                <span>Future</span>
+                <span>Table Menu Orders</span>
               </a>
-            </li> */}
+            </li>
           </ul>
         </li>
         
         {/* feedback */}
         <li class="nav-item">
           <Link class="nav-link collapsed" to="/feedback">
-            <i class="bi bi-chat"></i>
+            <i class="bi bi-twitch"></i>
             <span>Feedback</span>
+          </Link>
+        </li>
+        
+        {/* contect us */}
+        <li class="nav-item">
+          <Link class="nav-link collapsed" to="/contact_us">
+            <i class="bi bi-chat"></i>
+            <span>Contact Us</span>
+          </Link>
+        </li>
+        
+        {/* chef kitchen */}
+        <li class="nav-item">
+          <Link class="nav-link collapsed" to="/kitchen">
+            <i class="bi bi-basket"></i>
+            <span>Kitchen</span>
           </Link>
         </li>
 

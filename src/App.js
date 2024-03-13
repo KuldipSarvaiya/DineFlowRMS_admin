@@ -15,23 +15,44 @@ import Bookings from "./pages/tables/Bookings";
 import Past from "./pages/orders/Past";
 import Present from "./pages/orders/Present";
 // import Future from "./pages/orders/Future";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import axios from "axios";
 import MenuItem from "./forms/MenuItem";
-import BillsForm from "./forms/BillsForm";
+// import BillsForm from "./forms/BillsForm";
 import RestUser from "./forms/RestUser";
 import CustomerForm from "./forms/CustomerForm";
 import TableForm from "./forms/TableForm";
 import GenretedBill from "./widgets/GenretedBill";
+import ContectUs from "./pages/ContectUs";
+import SignIn from "./pages/auth/SignIn";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { context } from "./AppState";
+import Kitchen from "./pages/Kitchen";
+import ItemOrders from "./pages/orders/ItemOrders";
 
 function App() {
+  const { appData, Dispatch } = useContext(context);
+  const navigate = useNavigate();
+
   useLayoutEffect(() => {
     axios.defaults.baseURL = "http://localhost:8080";
-  });
+    if (!appData.auth) {
+      const id = localStorage.getItem("id");
+      console.log(id);
+      if (!id) return navigate("/signin");
+      (async () => {
+        const res = await axios.get("/employee/" + id);
+        console.log(res);
+        if (!res?.data) return navigate("signin");
+        Dispatch({ type: "setAuth", payload: res?.data[0] });
+      })();
+    }
+  }, [navigate]);
 
   return (
-    <BrowserRouter>
+    <>
       <Header />
       <Sidebar />
       <main id="main" class="main">
@@ -50,7 +71,9 @@ function App() {
           <Route path="/orders_current" element={<Present />} />
           <Route path="/feedback" element={<FeedBack />} />
           <Route path="/menu" element={<Menu />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/contact_us" element={<ContectUs />} />
+          <Route path="/kitchen" element={<Kitchen />} />
+          <Route path="/itemorders" element={<ItemOrders />} />
 
           {/* forms */}
           <Route path="/menuitem" element={<MenuItem />} />
@@ -62,10 +85,16 @@ function App() {
           <Route path="/user/:role/:id" element={<RestUser />} />
           <Route path="/table" element={<TableForm />} />
           <Route path="/table/:id" element={<TableForm />} />
+
+          {/* auth */}
+          <Route path="/signin" element={<SignIn />} />
+
+          {/*  */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 

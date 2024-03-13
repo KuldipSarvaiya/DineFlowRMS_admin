@@ -119,9 +119,7 @@ function BookingAccepted() {
                       </span>
                     </td>
                     <td>
-                      <span>
-                        {new Date(item.booking_time).toLocaleTimeString()}
-                      </span>
+                      <span>{item.booking_time}</span>
                     </td>
                     <td>{item.person_count}</td>
                     <td>{item.duration} min.</td>
