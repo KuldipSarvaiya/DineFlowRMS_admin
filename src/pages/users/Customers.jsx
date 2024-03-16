@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { context } from "../../AppState";
 
 function Customers() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const { appData } = useContext(context);
   useEffect(() => {
     fetchData();
   }, []);
@@ -44,34 +46,36 @@ function Customers() {
                 <th scope="col">NAME</th>
                 <th scope="col">MOBILE</th>
                 <th scope="col">PASSWORD</th>
-                <th scope="col">ACTION</th>
+                {appData?.auth.role_id <= 2 && <th scope="col">ACTION</th>}
               </tr>
             </thead>
             <tbody>
-            {data.map((user, i) => {
+              {data.map((user, i) => {
                 return (
                   <tr>
                     <td>{i + 1}</td>
                     <td>{user.name}</td>
                     <td>{user.mobile_no}</td>
                     <td>{user.password}</td>
-                    <td>
-                      <button
-                        className="btn btn-warning"
-                        onClick={() =>
-                          navigate(`/customer/${user.customer_id}`)
-                        }
-                      >
-                        <i className="bx bx-edit-alt"></i>
-                      </button>
-                      &nbsp; &nbsp;
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => deleteCustomer(user.customer_id)}
-                      >
-                        <i className="bx bx-trash"></i>
-                      </button>
-                    </td>
+                    {appData?.auth.role_id <= 2 && (
+                      <td>
+                        <button
+                          className="btn btn-warning"
+                          onClick={() =>
+                            navigate(`/customer/${user.customer_id}`)
+                          }
+                        >
+                          <i className="bx bx-edit-alt"></i>
+                        </button>
+                        &nbsp; &nbsp;
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => deleteCustomer(user.customer_id)}
+                        >
+                          <i className="bx bx-trash"></i>
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 );
               })}

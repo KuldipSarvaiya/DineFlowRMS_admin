@@ -123,6 +123,7 @@ function RestUser() {
                   // onChange={handleChange}
                   type="tel"
                   required
+                  disabled
                   name="role_id"
                   value={window.location.pathname.split("/")[2]}
                   class="form-control"

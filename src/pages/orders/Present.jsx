@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { context } from "../../AppState";
 
 function Present() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const { appData } = useContext(context);
   useEffect(() => {
     fetchData();
   }, []);
@@ -86,47 +88,25 @@ function Present() {
                       )}
                       &nbsp; &nbsp;
                       {order.allow_orders === 1 && (
-                        <button
-                          className="btn btn-warning"
-                          onClick={() => allowOrders(order.order_id, false)}
-                        >
-                          <i className="bi bi-x">Deny Orders</i>
-                        </button>
-                      )}
-                      &nbsp; &nbsp;
-                      {order.allow_orders === 1 ? (
-                        order.is_complete ? (
-                          <button
-                            className="btn btn-warning"
-                            onClick={() => {
-                              navigate(`/bill/${order.order_id}`);
-                            }}
-                          >
-                            <i className="bi bi-arrow-up-right"></i>
-                          </button>
-                        ) : (
-                          <button
-                            className="btn btn-dark"
-                            onClick={() => generateBill(order.order_id)}
-                          >
-                            <i className="bi bi-card-checklist">
-                              {" "}
-                              Generate Bill
-                            </i>
-                          </button>
-                        )
-                      ) : (
-                        ""
-                      )}
-                      &nbsp; &nbsp;
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          deleteBill(order.order_id);
-                        }}
-                      >
-                        <i className="bx bx-trash"></i>
-                      </button>
+                          <>
+                            <button
+                              className="btn btn-warning"
+                              onClick={() => allowOrders(order.order_id, false)}
+                            >
+                              <i className="bi bi-x">Deny Orders</i>
+                            </button>
+                            &nbsp; &nbsp;
+                            <button
+                              className="btn btn-dark"
+                              onClick={() => generateBill(order.order_id)}
+                            >
+                              <i className="bi bi-card-checklist">
+                                {" "}
+                                Generate Bill
+                              </i>
+                            </button>
+                          </>
+                        )}
                     </td>
                   </tr>
                 );

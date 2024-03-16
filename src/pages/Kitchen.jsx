@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../styles/menuitem.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "axios"; 
 
 function Kitchen() {
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
-  useEffect(() => {
+  const [data, setData] = useState([]); 
+
+  useEffect(() => { 
     fetchData();
   }, []);
 
@@ -61,7 +62,12 @@ function Kitchen() {
                     <td>
                       <button
                         className="btn btn-success"
-                        onClick={() => changeTrnOrderState({...item, order_status:"Ready"})}
+                        onClick={() =>
+                          changeTrnOrderState({
+                            ...item,
+                            order_status: "Ready",
+                          })
+                        }
                       >
                         <i className="bi bi-patch-check-fill"></i>
                         &nbsp;Item Ready
