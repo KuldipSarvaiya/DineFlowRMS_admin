@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "../styles/menuitem.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 function GenretedBill() {
   const navigate = useNavigate();
   const { id } = useParams();
+  // order_id, name, table_no, bill_date
+  const [searchParams] = useSearchParams();
   const [data, setData] = useState([]);
   useEffect(() => {
     fetchData();
   }, []);
+  // queary string
+  const queryParams = Object.fromEntries(searchParams);
+  console.log(queryParams);
 
   async function fetchData() {
     const res = await axios.get("/order/get_bill/" + id);
@@ -22,6 +27,32 @@ function GenretedBill() {
       <div className="card recent-sales overflow-auto">
         <div className="card-body">
           <h5 className="card-title">Ordered Menu Items &nbsp;</h5>
+          <hr />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "20px",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <span>
+              <b>ORDER ID : </b>
+              {queryParams?.order_id}
+            </span>
+            <span>
+              <b>CUSTOMER NAME : </b>
+              {queryParams?.name}
+            </span>
+            <span>
+              <b>TABLE NO. :</b> {queryParams?.table_no}
+            </span>
+            <span>
+              <b>BILL DATE :</b>{" "}
+              {new Date(queryParams?.bill_date).toDateString()}
+            </span>
+          </div>
+          <hr />
 
           <table className="table table-borderless datatable">
             <thead>

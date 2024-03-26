@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Bills() {
+function Past() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -10,7 +10,7 @@ function Bills() {
   }, []);
 
   async function fetchData(query = "") {
-    const res = await axios.get("/order?is_complete=1" + query);
+    const res = await axios.get("/order?is_complete=0" + query);
     console.log(res.data);
     if (res.data) setData(res.data);
   }
@@ -97,6 +97,7 @@ function Bills() {
                 <th scope="col">#</th>
                 <th scope="col">ORDER ID</th>
                 <th scope="col">CUSTOMER</th>
+                <th scope="col">TABLE NO.</th>
                 <th scope="col">BILL DATE</th>
                 <th scope="col">BILL AMOUNT</th>
                 <th scope="col">ACTION</th>
@@ -109,6 +110,7 @@ function Bills() {
                     <td>{i + 1}</td>
                     <td>{bill.customer_order_id}</td>
                     <td>{bill.name}</td>
+                    <td>{bill.table_no}</td>
                     <td>
                       {new Date(
                         bill.update_date || bill.entry_date
@@ -119,7 +121,9 @@ function Bills() {
                       <button
                         className="btn btn-warning"
                         onClick={() => {
-                          navigate(`/bill/${bill.order_id}`);
+                          navigate(
+                            `/bill/${bill.order_id}?order_id=${bill.customer_order_id}&name=${bill.name}&table_no=${bill.table_no}&bill_date=${bill.update_date}`
+                          );
                         }}
                       >
                         <i className="bi bi-arrow-up-right"></i>
@@ -137,11 +141,10 @@ function Bills() {
               })}
             </tbody>
           </table>
-
         </div>
       </div>
     </div>
   );
 }
 
-export default Bills;
+export default Past;

@@ -29,7 +29,7 @@ function Present() {
     if (res.data) fetchData();
   }
 
-  async function generateBill(id) {
+  async function generateBill(id, i) {
     const order = data.filter((order) => order.id === id);
     const charges = prompt("Enter Charges Applied on this Order");
     const discount = prompt("Enter Discount Applied on this Order");
@@ -45,7 +45,10 @@ function Present() {
       updated_by_role: 1,
     });
     console.log(res.data);
-    if (res.data) navigate("/bill/" + id);
+    if (res.data)
+      navigate(
+        `/bill/${data[i].order_id}?order_id=${data[i].customer_order_id}&name=${data[i].name}&table_no=${data[i].table_no}&bill_date=${data[i].update_date}`
+      );
   }
 
   async function deleteBill(id) {
@@ -65,6 +68,7 @@ function Present() {
                 <th scope="col">#</th>
                 <th scope="col">ORDER ID</th>
                 <th scope="col">CUSTOMER</th>
+                <th scope="col">TABLE NO.</th>
                 <th scope="col">DATE</th>
                 <th scope="col">ACTION</th>
               </tr>
@@ -76,6 +80,7 @@ function Present() {
                     <td>{i + 1}</td>
                     <td>{order.customer_order_id}</td>
                     <td>{order.name}</td>
+                    <td>{order.table_no}</td>
                     <td>{new Date().toLocaleDateString()}</td>
                     <td>
                       {order.allow_orders === 0 && (
@@ -88,25 +93,25 @@ function Present() {
                       )}
                       &nbsp; &nbsp;
                       {order.allow_orders === 1 && (
-                          <>
-                            <button
-                              className="btn btn-warning"
-                              onClick={() => allowOrders(order.order_id, false)}
-                            >
-                              <i className="bi bi-x">Deny Orders</i>
-                            </button>
-                            &nbsp; &nbsp;
-                            <button
-                              className="btn btn-dark"
-                              onClick={() => generateBill(order.order_id)}
-                            >
-                              <i className="bi bi-card-checklist">
-                                {" "}
-                                Generate Bill
-                              </i>
-                            </button>
-                          </>
-                        )}
+                        <>
+                          <button
+                            className="btn btn-warning"
+                            onClick={() => allowOrders(order.order_id, false)}
+                          >
+                            <i className="bi bi-x">Deny Orders</i>
+                          </button>
+                          &nbsp; &nbsp;
+                          <button
+                            className="btn btn-dark"
+                            onClick={() => generateBill(order.order_id, i)}
+                          >
+                            <i className="bi bi-card-checklist">
+                              {" "}
+                              Generate Bill
+                            </i>
+                          </button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 );

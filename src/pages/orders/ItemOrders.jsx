@@ -14,7 +14,7 @@ function ItemOrders() {
 
   console.log(tables);
   async function fetchTables() {
-    const res = await axios.get("/table");
+    const res = await axios.get("/table/busy");
     if (res.statusText === "OK") setTables(res.data);
   }
 
@@ -24,6 +24,14 @@ function ItemOrders() {
     );
     console.log(res);
     if (res.statusText === "OK") setOrders(res.data);
+  }
+
+  async function changeTrnOrderState(trn_order) {
+    const res = await axios.put(
+      `/trn_order/${trn_order.trn_order_id}`,
+      trn_order
+    );
+    if (res.data) fetchOrders();
   }
 
   return (
@@ -37,10 +45,13 @@ function ItemOrders() {
                   <button
                     key={i}
                     type="button"
-                    class="btn btn-primary"
+                    class={`btn btn-${
+                      currTable !== tb.table_no ? "secondary" : "primary"
+                    }`}
                     onClick={() => setCurrTable(tb.table_no)}
                   >
-                    Table {tb.table_no}
+                    <i className="bi bi-table"></i>
+                    &nbsp; Table {tb.table_no}
                   </button>
                 </span>
               );
@@ -56,6 +67,7 @@ function ItemOrders() {
                 <th scope="col">PRICE</th>
                 <th scope="col">QUANTITY</th>
                 <th scope="col">STATUS</th>
+                <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -75,6 +87,22 @@ function ItemOrders() {
                     <td>{item.price}</td>
                     <td>{item.qty}</td>
                     <td>{item.order_status}</td>
+                    <td>
+                      {item.order_status === "Ready" && (
+                        <button
+                          className="btn btn-success"
+                          onClick={() =>
+                            changeTrnOrderState({
+                              ...item,
+                              order_status: "Ready",
+                            })
+                          }
+                        >
+                          <i className="bx bx-wine"></i>
+                          &nbsp;Item Served
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 );
               })}

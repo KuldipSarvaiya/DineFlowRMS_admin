@@ -32,16 +32,22 @@ function MenuItem() {
   async function handleSubmit(e) {
     e.preventDefault();
     let res = null;
+    console.clear();
+    console.log(data);
     if (id)
       res = await axios.put(
-        `/menuitem/${id}`,
+        `/menuitem/${!data?.img ? "noimage/" : ""}${id}`,
         {
           ...data,
           updated_by: 1,
           updated_by_role: 1,
         },
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": data?.img
+              ? "multipart/form-data"
+              : "application/json",
+          },
         }
       );
     else
@@ -102,13 +108,13 @@ function MenuItem() {
               </label>
               <div class="col-sm-10">
                 <input
-                  defaultValue={data?.image_url}
+                  // defaultValue={data?.image_url}
                   onChange={handleChange}
                   class="form-control"
                   type="file"
                   name="img"
                   id="formFile"
-                  // required
+                  required={!id}
                 />
               </div>
             </div>
