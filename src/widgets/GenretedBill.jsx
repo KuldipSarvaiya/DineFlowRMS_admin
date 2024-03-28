@@ -49,7 +49,7 @@ function GenretedBill() {
             </span>
             <span>
               <b>BILL DATE :</b>{" "}
-              {new Date(queryParams?.bill_date).toDateString()}
+              {new Date(queryParams?.bill_date).toLocaleDateString()}
             </span>
           </div>
           <hr />
@@ -93,7 +93,7 @@ function GenretedBill() {
                 <th scope="col"></th>
                 <th scope="col">TOTAL &rarr;</th>
                 <th scope="col">SUB TOTAL : {data?.order?.[0]?.sub_total}</th>
-                <th scope="col">CHARGES : {data?.order?.[0]?.charges}</th>
+                <th scope="col">SERVICE CHARGES : {data?.order?.[0]?.charges}</th>
                 <th scope="col">DISCOUNT : {data?.order?.[0]?.discount}</th>
                 <th scope="col">NET TOTAL : {data?.order?.[0]?.net_total}</th>
               </tr>

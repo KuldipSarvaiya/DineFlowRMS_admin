@@ -15,17 +15,24 @@ function Past() {
     if (res.data) setData(res.data);
   }
 
-  async function deleteBill(id) {
-    const res = await axios.delete(`/order/${id}`);
-    if (res.data) fetchData();
-  }
+  // async function deleteBill(id) {
+  //   const res = await axios.delete(`/order/${id}`);
+  //   if (res.data) fetchData();
+  // }
 
   function SubNavBar() {
     function handleSearch(e) {
       e.preventDefault();
       const data = new FormData(e.target);
-      const date_from = data.get("from_date");
-      const date_to = data.get("to_date");
+      const df = new Date(data.get("from_date"));
+      const dt = new Date(data.get("to_date"));
+      const date_from = `${df.getDate()}/${
+        df.getMonth() + 1
+      }/${df.getFullYear()}`;
+      const date_to = `${dt.getDate()}/${
+        dt.getMonth() + 1
+      }/${dt.getFullYear()}`;
+      console.log(date_from, date_to);
       fetchData("&date_from=" + date_from + "&date_to=" + date_to);
     }
     return (
@@ -129,12 +136,12 @@ function Past() {
                         <i className="bi bi-arrow-up-right"></i>
                       </button>
                       &nbsp; &nbsp;
-                      <button
+                      {/* <button
                         className="btn btn-danger"
                         onClick={() => deleteBill(bill.order_id)}
                       >
                         <i className="bx bx-trash"></i>
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 );

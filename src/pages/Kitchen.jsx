@@ -25,7 +25,7 @@ function Kitchen() {
       `/trn_order/${trn_order.trn_order_id}`,
       trn_order
     );
-    if (res.data) fetchData();
+    if (res.statusText === "OK") fetchData();
   }
 
   async function fetchTables() {

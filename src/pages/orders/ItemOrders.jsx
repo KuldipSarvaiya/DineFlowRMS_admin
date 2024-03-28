@@ -1,10 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 
 function ItemOrders() {
   const [orders, setOrders] = React.useState([]);
-  const [currTable, setCurrTable] = React.useState(101);
+  const [currTable, setCurrTable] = React.useState("");
   const [tables, setTables] = React.useState([]);
 
   useEffect(() => {
@@ -27,11 +26,12 @@ function ItemOrders() {
   }
 
   async function changeTrnOrderState(trn_order) {
+    console.log("i got it");
     const res = await axios.put(
       `/trn_order/${trn_order.trn_order_id}`,
       trn_order
     );
-    if (res.data) fetchOrders();
+    if (res.statusText === "OK") fetchOrders();
   }
 
   return (
@@ -91,12 +91,13 @@ function ItemOrders() {
                       {item.order_status === "Ready" && (
                         <button
                           className="btn btn-success"
-                          onClick={() =>
+                          onClick={() => {
+                            console.log("its a click");
                             changeTrnOrderState({
                               ...item,
                               order_status: "Ready",
-                            })
-                          }
+                            });
+                          }}
                         >
                           <i className="bx bx-wine"></i>
                           &nbsp;Item Served
