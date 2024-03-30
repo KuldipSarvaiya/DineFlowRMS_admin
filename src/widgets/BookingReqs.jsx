@@ -14,22 +14,27 @@ function BookingReqs() {
   }
 
   async function actionBooking(id, is_accepted) {
+    console.log("called");
     const this_booking = data.find((item) => item.booking_id === id);
     let table_no = this_booking.table_no;
-    if (is_accepted === "Accepted")
+    if (is_accepted === "Accepted") {
       table_no = prompt("Enter Table Number To Allocate To This Booking : "); //.toString();
-    if (!table_no) return;
+      if (!table_no) return;
+    }
 
     console.log(this_booking, is_accepted);
-    const res = await axios.put(`/booking/${id}`, {
-      ...this_booking,
-      is_accepted,
-      table_no,
-      updated_by: 1,
-      updated_by_role: 1,
-    });
-    console.log(res.data);
-    if (res.data) fetchData();
+    const res =
+      is_accepted === "Accepted"
+        ? await axios.put(`/booking/${id}`, {
+            ...this_booking,
+            is_accepted,
+            table_no,
+            updated_by: 1,
+            updated_by_role: 1,
+          })
+        : await axios.delete(`/booking/${id}`);
+    console.log(res.statusText);
+    if (res.statusText === "OK") fetchData();
   }
 
   return (

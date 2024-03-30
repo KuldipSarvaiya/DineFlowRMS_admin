@@ -8,13 +8,14 @@ function ItemOrders() {
 
   useEffect(() => {
     if (tables.length) fetchOrders();
-    else fetchTables();
-  }, [tables, currTable]);
+    if (!tables.length) fetchTables();
+  }, [tables]);
 
-  console.log(tables);
   async function fetchTables() {
     const res = await axios.get("/table/busy");
-    if (res.statusText === "OK") setTables(res.data);
+    console.log("table fetched");
+    if (res.statusText === "OK" && res.data !== tables && tables.length)
+      setTables(res.data);
   }
 
   async function fetchOrders() {
@@ -26,7 +27,6 @@ function ItemOrders() {
   }
 
   async function changeTrnOrderState(trn_order) {
-    console.log("i got it");
     const res = await axios.put(
       `/trn_order/${trn_order.trn_order_id}`,
       trn_order
@@ -92,7 +92,6 @@ function ItemOrders() {
                         <button
                           className="btn btn-success"
                           onClick={() => {
-                            console.log("its a click");
                             changeTrnOrderState({
                               ...item,
                               order_status: "Ready",

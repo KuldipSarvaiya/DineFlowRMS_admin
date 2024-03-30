@@ -1,6 +1,15 @@
 import React from "react";
+import { useContext } from "react";
+import { context } from "../AppState";
 
 function Home() {
+  const { appData } = useContext(context);
+  const role = {
+    1: "Admin",
+    2: "Manager",
+    3: "Waiter",
+    4: "Chef",
+  };
   return (
     <>
       <div className="pagetitle">
@@ -9,7 +18,7 @@ function Home() {
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <a href="index.html">Home</a>
-            </li> 
+            </li>
             <li className="breadcrumb-item active">Admin</li>
           </ol>
         </nav>
@@ -25,8 +34,8 @@ function Home() {
                   alt="Profile"
                   className="rounded-circle"
                 />
-                <h2>Kevin Anderson</h2>
-                <h3>Web Designer</h3>
+                <h2>{appData?.auth?.name}</h2>
+                <h3>{role[appData?.auth?.role_id]}</h3>
                 <div className="social-links mt-2">
                   <a href="#" className="twitter">
                     <i className="bi bi-twitter"></i>
@@ -106,7 +115,9 @@ function Home() {
 
                     <div className="row">
                       <div className="col-lg-3 col-md-4 label ">Full Name</div>
-                      <div className="col-lg-9 col-md-8">Kevin Anderson</div>
+                      <div className="col-lg-9 col-md-8">
+                        {appData?.auth?.name}
+                      </div>
                     </div>
 
                     <div className="row">
@@ -118,7 +129,9 @@ function Home() {
 
                     <div className="row">
                       <div className="col-lg-3 col-md-4 label">Job</div>
-                      <div className="col-lg-9 col-md-8">Web Designer</div>
+                      <div className="col-lg-9 col-md-8">
+                        {role[appData?.auth?.role_id]}
+                      </div>
                     </div>
 
                     <div className="row">
@@ -136,14 +149,14 @@ function Home() {
                     <div className="row">
                       <div className="col-lg-3 col-md-4 label">Phone</div>
                       <div className="col-lg-9 col-md-8">
-                        (436) 486-3538 x29071
+                        {appData?.auth?.mobile}
                       </div>
                     </div>
 
                     <div className="row">
                       <div className="col-lg-3 col-md-4 label">Email</div>
                       <div className="col-lg-9 col-md-8">
-                        k.anderson@example.com
+                        {appData?.auth?.email_id}
                       </div>
                     </div>
                   </div>
@@ -186,7 +199,7 @@ function Home() {
                           for="fullName"
                           className="col-md-4 col-lg-3 col-form-label"
                         >
-                          Full Name
+                          {appData?.auth?.name}
                         </label>
                         <div className="col-md-8 col-lg-9">
                           <input
@@ -194,7 +207,7 @@ function Home() {
                             type="text"
                             className="form-control"
                             id="fullName"
-                            value="Kevin Anderson"
+                            value={appData?.auth?.name}
                           />
                         </div>
                       </div>
@@ -253,7 +266,7 @@ function Home() {
                             type="text"
                             className="form-control"
                             id="Job"
-                            value="Web Designer"
+                            value={role[appData?.auth?.role_id]}
                           />
                         </div>
                       </div>
@@ -307,7 +320,7 @@ function Home() {
                             type="text"
                             className="form-control"
                             id="Phone"
-                            value="(436) 486-3538 x29071"
+                            value={appData?.auth?.mobile}
                           />
                         </div>
                       </div>
@@ -325,7 +338,7 @@ function Home() {
                             type="email"
                             className="form-control"
                             id="Email"
-                            value="k.anderson@example.com"
+                            value={appData?.auth?.email_id}
                           />
                         </div>
                       </div>
