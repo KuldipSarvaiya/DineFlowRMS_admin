@@ -13,9 +13,10 @@ function ItemOrders() {
 
   async function fetchTables() {
     const res = await axios.get("/table/busy");
-    console.log("table fetched");
-    if (res.statusText === "OK" && res.data !== tables && tables.length)
+    if (res.statusText === "OK" && res.data !== tables && !tables.length) {
       setTables(res.data);
+      setCurrTable(res.data[0].table_no);
+    }
   }
 
   async function fetchOrders() {
